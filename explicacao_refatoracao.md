@@ -1,0 +1,94 @@
+# Explicação linha a linha de `refatoracao.py`
+
+```python
+def c(l):
+    t=0
+    for i in range(len(l)):
+        t=t+l[i]
+    m=t/len(l)
+    mx=l[0]
+    mn=l[0]
+    for i in range(len(l)):
+        if l[i]>mx:
+            mx=l[i]
+        if l[i]<mn:
+            mn=l[i]
+    return t,m,mx,mn
+
+x=[23,7,45,2,67,12,89,34,56,11]
+a,b,c2,d=c(x)
+print("total:",a)
+print("media:",b)
+print("maior:",c2)
+print("menor:",d)
+```
+
+## Linha a linha
+
+1. `def c(l):`
+   - Define a função `c` que recebe um parâmetro `l`, esperado como uma lista de números.
+
+2. `    t=0`
+   - Inicializa a variável `t` com 0. Ela será usada para acumular a soma dos elementos.
+
+3. `    for i in range(len(l)):`
+   - Inicia um laço que percorre cada índice válido da lista `l`.
+
+4. `        t=t+l[i]`
+   - Adiciona o elemento atual `l[i]` ao total `t`.
+
+5. `    m=t/len(l)`
+   - Calcula a média dos valores da lista dividindo a soma `t` pelo número de elementos.
+
+6. `    mx=l[0]`
+   - Define `mx` como o primeiro elemento da lista. `mx` será usado para guardar o maior valor.
+
+7. `    mn=l[0]`
+   - Define `mn` como o primeiro elemento da lista. `mn` será usado para guardar o menor valor.
+
+8. `    for i in range(len(l)):`
+   - Inicia um novo laço para verificar cada elemento da lista novamente.
+
+9. `        if l[i]>mx:`
+   - Verifica se o elemento atual é maior que o maior valor conhecido até agora.
+
+10. `            mx=l[i]`
+    - Se for maior, atualiza `mx` para esse novo valor.
+
+11. `        if l[i]<mn:`
+    - Verifica se o elemento atual é menor que o menor valor conhecido até agora.
+
+12. `            mn=l[i]`
+    - Se for menor, atualiza `mn` com esse valor.
+
+13. `    return t,m,mx,mn`
+    - Retorna uma tupla com quatro valores:
+      - `t`: soma de todos os elementos;
+      - `m`: média dos elementos;
+      - `mx`: maior elemento;
+      - `mn`: menor elemento.
+
+14. `x=[23,7,45,2,67,12,89,34,56,11]`
+    - Define a lista `x` com dez números inteiros.
+
+15. `a,b,c2,d=c(x)`
+    - Chama a função `c` passando `x` como argumento.
+    - Recebe o resultado da função em quatro variáveis: `a`, `b`, `c2` e `d`.
+
+16. `print("total:",a)`
+    - Imprime a soma total dos valores da lista.
+
+17. `print("media:",b)`
+    - Imprime a média dos valores.
+
+18. `print("maior:",c2)`
+    - Imprime o maior valor encontrado na lista.
+
+19. `print("menor:",d)`
+    - Imprime o menor valor encontrado na lista.
+
+## Resumo do funcionamento
+
+- A função `c` calcula soma, média, maior e menor valor de uma lista.
+- O código principal cria uma lista (`x`), chama `c(x)` e exibe os resultados.
+- Cada linha do script é usada para construir e exibir essas informações.

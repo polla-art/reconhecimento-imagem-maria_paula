@@ -1,0 +1,44 @@
+# Explicação dos Erros no Código `debug.py`
+
+O código `debug.py` contém vários erros de sintaxe e lógica que impedem sua execução correta. Abaixo, identifico cada erro, explico a causa e apresento a correção aplicada.
+
+## Erros Identificados e Correções
+
+### 1. Erro na linha 5: Falta de aspas na string do `input`
+   - **Código original:** `item1 = float(input(Preço do item 1? ))`
+   - **Causa:** A string dentro do `input` não está entre aspas, o que gera um erro de sintaxe porque Python não reconhece "Preço" como uma variável definida.
+   - **Correção:** Adicionar aspas duplas: `item1 = float(input("Preço do item 1? "))`
+
+### 2. Erro na linha 15: `desconto_cupom` tratado como string, mas usado como número
+   - **Código original:** `desconto_cupom = (input("Você tem um cupom de desconto? (Digite o percentual ou 0): "))`
+   - **Causa:** O `input` retorna uma string, mas nas linhas seguintes, `desconto_cupom` é usado em operações matemáticas (divisão e comparação), o que gera `TypeError`.
+   - **Correção:** Converter para `float`: `desconto_cupom = float(input("Você tem um cupom de desconto? (Digite o percentual ou 0): "))`
+
+### 3. Erro na linha 16: Divisão com string
+   - **Código original:** `desconto = subtotal * (desconto_cupom / 100)`
+   - **Causa:** Como `desconto_cupom` é string (antes da correção), não pode ser dividido por 100.
+   - **Correção:** Após converter `desconto_cupom` para `float`, a operação funciona.
+
+### 4. Erro na linha 23: Falta do prefixo `f` na f-string
+   - **Código original:** `print(" Item 2:        R$ {total_item2:.2f}")`
+   - **Causa:** Para usar interpolação de variáveis em strings, é necessário o prefixo `f`. Sem ele, `{total_item2:.2f}` é tratado como texto literal.
+   - **Correção:** Adicionar `f`: `print(f" Item 2:        R$ {total_item2:.2f}")`
+
+### 5. Erro na linha 27: Comparação entre string e número
+   - **Código original:** `if desconto_cupom > 0:`
+   - **Causa:** `desconto_cupom` é string, e comparar string com int gera `TypeError`.
+   - **Correção:** Após converter para `float`, a comparação funciona.
+
+### 6. Erro na linha 28: Falta de indentação
+   - **Código original:** `print(f" Desconto ({desconto_cupom:.0f}%): -R$ {desconto:.2f}")`
+   - **Causa:** Em Python, blocos de código (como dentro de `if`) devem ser indentados. Sem indentação, o código não pertence ao bloco `if`.
+   - **Correção:** Adicionar indentação (4 espaços): `    print(f" Desconto ({desconto_cupom:.0f}%): -R$ {desconto:.2f}")`
+
+### 7. Erro na linha 31: Formatação redundante
+   - **Código original:** `print(f" TOTAL:         R$ {round(total, 2):.2f}")`
+   - **Causa:** `round(total, 2)` já arredonda para 2 casas decimais, e `.2f` formata novamente, o que é redundante e pode causar inconsistências.
+   - **Correção:** Usar apenas `.2f`: `print(f" TOTAL:         R$ {total:.2f}")`
+
+## Código Corrigido
+
+Após as correções, o código fica funcional e segue boas práticas de Python.
