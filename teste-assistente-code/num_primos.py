@@ -1,17 +1,28 @@
-def eh_primo(n):
-    """Retorna True se n for primo, caso contrário False."""
-    if n <= 1:
+def eh_primo(numero: int) -> bool:
+    """Retorna True se o número for primo, caso contrário False."""
+    if numero <= 1:
         return False
-    if n <= 3:
+    if numero <= 3:
         return True
-    if n % 2 == 0:
+    if numero % 2 == 0:
         return False
-    limite = int(n**0.5)
-    for i in range(3, limite + 1, 2):
-        if n % i == 0:
-            return False
-    return True
+    return not possui_divisor_impar(numero)
+
+
+def possui_divisor_impar(numero: int) -> bool:
+    limite = int(numero ** 0.5)
+    for divisor in range(3, limite + 1, 2):
+        if numero % divisor == 0:
+            return True
+    return False
+
+
+def main() -> None:
+    exemplos = [1, 2, 3, 4, 17, 18, 19, 20]
+    for numero in exemplos:
+        resultado = eh_primo(numero)
+        print(f'{numero}: {resultado}')
+
 
 if __name__ == '__main__':
-    for numero in [1, 2, 3, 4, 17, 18, 19, 20]:
-        print(f'{numero}: {eh_primo(numero)}')
+    main()
