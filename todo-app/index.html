@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciador de Tarefas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        .glass {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 transition-all">
+
+    <div id="app" class="w-full max-w-md transition-all duration-500">
+        
+        <!-- Tela de Login -->
+        <div id="login-screen" class="glass rounded-2xl p-8 shadow-2xl">
+            <h2 class="text-3xl font-bold mb-6 text-center text-blue-400">Login</h2>
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1">E-mail</label>
+                    <input type="email" id="login-email" class="w-full px-4 py-2 rounded-lg bg-slate-800/80 border border-slate-600 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400 transition-colors" placeholder="seu@email.com">
+                    <p id="login-email-error" class="text-red-400 text-xs mt-1 hidden">O e-mail é obrigatório.</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Senha</label>
+                    <input type="password" id="login-password" class="w-full px-4 py-2 rounded-lg bg-slate-800/80 border border-slate-600 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400 transition-colors" placeholder="••••••••">
+                    <p id="login-password-error" class="text-red-400 text-xs mt-1 hidden">A senha é obrigatória.</p>
+                </div>
+                <p id="login-error" class="text-red-400 text-sm text-center hidden">E-mail não cadastrado ou senha incorreta.</p>
+                <button type="submit" class="w-full py-2.5 mt-2 bg-blue-600 hover:bg-blue-500 rounded-lg font-semibold transition-all shadow-lg hover:shadow-blue-500/25">Entrar</button>
+            </form>
+            <p class="text-center mt-6 text-slate-400 text-sm">
+                Não tem uma conta? <a href="#" id="go-to-register" class="text-blue-400 hover:text-blue-300 hover:underline transition-colors">Cadastre-se</a>
+            </p>
+        </div>
+
+        <!-- Tela de Cadastro -->
+        <div id="register-screen" class="glass rounded-2xl p-8 shadow-2xl hidden">
+            <h2 class="text-3xl font-bold mb-6 text-center text-purple-400">Cadastro</h2>
+            <form id="register-form" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Nome</label>
+                    <input type="text" id="register-name" class="w-full px-4 py-2 rounded-lg bg-slate-800/80 border border-slate-600 focus:border-purple-400 focus:outline-none focus:ring-1 focus:ring-purple-400 transition-colors" placeholder="Seu nome">
+                    <p id="register-name-error" class="text-red-400 text-xs mt-1 hidden">O nome é obrigatório.</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">E-mail</label>
+                    <input type="email" id="register-email" class="w-full px-4 py-2 rounded-lg bg-slate-800/80 border border-slate-600 focus:border-purple-400 focus:outline-none focus:ring-1 focus:ring-purple-400 transition-colors" placeholder="seu@email.com">
+                    <p id="register-email-error" class="text-red-400 text-xs mt-1 hidden">O e-mail é obrigatório.</p>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Senha</label>
+                    <input type="password" id="register-password" class="w-full px-4 py-2 rounded-lg bg-slate-800/80 border border-slate-600 focus:border-purple-400 focus:outline-none focus:ring-1 focus:ring-purple-400 transition-colors" placeholder="••••••••">
+                    <p id="register-password-error" class="text-red-400 text-xs mt-1 hidden">A senha é obrigatória.</p>
+                </div>
+                <p id="register-error" class="text-red-400 text-sm text-center hidden">Este e-mail já está em uso.</p>
+                <button type="submit" class="w-full py-2.5 mt-2 bg-purple-600 hover:bg-purple-500 rounded-lg font-semibold transition-all shadow-lg hover:shadow-purple-500/25">Cadastrar</button>
+            </form>
+            <p class="text-center mt-6 text-slate-400 text-sm">
+                Já tem uma conta? <a href="#" id="go-to-login" class="text-purple-400 hover:text-purple-300 hover:underline transition-colors">Faça login</a>
+            </p>
+        </div>
+
+        <!-- Painel Principal (Dashboard) -->
+        <div id="dashboard-screen" class="hidden h-[90vh] flex-col w-full max-w-5xl">
+            <!-- Header -->
+            <header class="glass rounded-xl p-5 mb-6 flex justify-between items-center shadow-lg">
+                <h1 class="text-xl md:text-2xl font-bold text-slate-100" id="greeting">Olá, Usuário</h1>
+                <button id="logout-btn" class="px-5 py-2 bg-slate-700 hover:bg-red-500/80 hover:text-white rounded-lg transition-colors text-sm font-semibold">Logout</button>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 min-h-0">
+                
+                <!-- Formulário de Nova Tarefa -->
+                <div class="glass rounded-xl p-6 h-fit shadow-lg">
+                    <h2 class="text-xl font-bold mb-5 text-emerald-400">Nova Tarefa</h2>
+                    <form id="todo-form" class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-1 text-slate-300">Título</label>
+                            <input type="text" id="todo-title" class="w-full px-4 py-2 rounded-lg bg-slate-800/80 border border-slate-600 focus:border-emerald-400 focus:outline-none focus:ring-1 focus:ring-emerald-400 transition-colors text-slate-100" placeholder="Ex: Estudar JavaScript">
+                            <p id="todo-title-error" class="text-red-400 text-xs mt-1 hidden">O título da tarefa é obrigatório.</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1 text-slate-300">Tipo</label>
+                            <select id="todo-type" class="w-full px-4 py-2 rounded-lg bg-slate-800/80 border border-slate-600 focus:border-emerald-400 focus:outline-none focus:ring-1 focus:ring-emerald-400 transition-colors text-slate-100">
+                                <option value="Trabalho">Trabalho</option>
+                                <option value="Pessoal">Pessoal</option>
+                                <option value="Estudos">Estudos</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1 text-slate-300">Descrição <span class="text-slate-500 text-xs font-normal">(Opcional)</span></label>
+                            <textarea id="todo-desc" class="w-full px-4 py-2 rounded-lg bg-slate-800/80 border border-slate-600 focus:border-emerald-400 focus:outline-none focus:ring-1 focus:ring-emerald-400 transition-colors text-slate-100 resize-none custom-scrollbar" rows="3" placeholder="Detalhes adicionais..."></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-2.5 mt-2 bg-emerald-600 hover:bg-emerald-500 rounded-lg font-semibold transition-all shadow-lg hover:shadow-emerald-500/25">Adicionar Tarefa</button>
+                    </form>
+                </div>
+
+                <!-- Lista de Tarefas -->
+                <div class="lg:col-span-2 glass rounded-xl p-6 shadow-lg flex flex-col min-h-0">
+                    <h2 class="text-xl font-bold mb-5 text-slate-100">Minhas Tarefas</h2>
+                    <div id="todos-list" class="flex-1 space-y-3 overflow-y-auto pr-2 custom-scrollbar">
+                        <!-- Itens renderizados dinamicamente -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
